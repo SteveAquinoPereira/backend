@@ -60,3 +60,6 @@ Route::post('/evaluation/store','EvaluationController@store');
 Route::delete('/evaluation/delete/{id_evaluation}','EvaluationController@destroy');
 
 Route::get('/section/{id_section}/subject/{id_subject}/students/{id_user}','EvaluationController@showEvaluations');
+
+Route::get('/user/{id_user}/section{id_section}/subject/{id_subject}/evaluations'
+,'EvaluationController@getEvaluations');
