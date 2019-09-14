@@ -87,14 +87,19 @@ class EvaluationController extends Controller
         ->select('id_cut01','id_evaluation','evaluation_type','percentage','grade')
         ->where(['id_section01' => $id_section,'id_subject03' => $id_subject,'id_user' => $id_user])->get();
         
-        $users = DB::table('users')->select('first_name','last_name')->where('id_user',$id_user);
+        $user = DB::table('users')->select('first_name','last_name')->where('id_user',$id_user)->get();
 
-        $subjects = DB::table('subjects')->select('subject_name')->where('id_subject',$id_subject);
+        $subject = DB::table('subjects')->select('subject_name')->where('id_subject',$id_subject)->get();
 
-        $sections = DB::table('sections')->select('section_name')->where('id_section',$id_section);
+        $section = DB::table('sections')->select('section_name')->where('id_section',$id_section)->get();
 
-        return response(['evaluations'=>$evaluations,'cuts' => $cuts, 'users'=> $users,
-         'subjects' => $subjects, 'sections' => $sections]);
+        $teacher = DB::table('users')
+        ->join('section_subject','id_teacher','id_user')
+        -select('first_name','last_name')
+        ->where(['id_subject' => $id_subject, 'id_section' => $id_section])->get();
+
+        return response(['evaluations'=>$evaluations,'cuts' => $cuts, 'user'=> $user,
+         'subject' => $subject, 'section' => $section, 'teacher' => $teacher]);
     }
 
     /**
